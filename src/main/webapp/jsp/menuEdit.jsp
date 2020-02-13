@@ -14,12 +14,20 @@
 		input.none {border:none}
 		select.none {border:none}
 	</style>
+	<script type="text/JavaScript">
+		function onChangeInvoke(){
+			var objS = document.getElementById("cid");
+			var value = objS.options[objS.selectedIndex].value;
+			document.getElementById("new_cid").value = value;
+		}
+	</script>
 </head>
 
 <body>
 	<h2>编辑菜品详情</h2>
 
 	<form action="/saveMenu" method = "post">
+		<input class = "none" type="hidden" name="new_cid" id="new_cid" value = "${menu.cid}"/>
 		<table border="1" cellspacing="0" cellpadding="5">
 			<tr>
 				<th>菜品ID</th>
@@ -32,7 +40,7 @@
 				<td><input class = "none" type="text" name="mname" value = "${menu.mname}"/></td>
 				<td>
 					<c:set var="ccid" scope="request" value="${menu.cid}" /> <!--获取当前cid-->
-					<select class = "none" name="cid">
+					<select class = "none" name="cid" id="cid" onchange="onChangeInvoke()">
 						<%
 							List<Category> categories = categoryManager.getAllCategories();
 							int ccid = ((Integer)request.getAttribute("ccid")).intValue();
@@ -59,6 +67,7 @@
 		<input type = "submit" value = "提交修改"/>
 		&nbsp;
 		<input type = "button" value = "取消" onclick="window.location.href='/showMenus'"/>
+
 	</form>
 
 </body>
